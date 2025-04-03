@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hindi to Odia Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        button {
+            margin-right: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Hindi to Odia Text Converter</h2>
+    <textarea id="hindiText" placeholder="Enter Hindi text..."></textarea>
+    <button onclick="convertText()">Convert</button>
+    <button onclick="copyToClipboard()">Copy</button>
+    <textarea id="odiaText" placeholder="Converted Odia text..." readonly></textarea>
+    
+    <script>
+        function convertText() {
+            let hindiText = document.getElementById("hindiText").value;
+            let odiaText = transliterate(hindiText);
+            document.getElementById("odiaText").value = odiaText;
+        }
+
+        function copyToClipboard() {
+            let odiaText = document.getElementById("odiaText");
+            odiaText.select();
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
+        }
+
+        function transliterate(text) {
+            const mapping = {
+                'अ': 'ଅ', 'आ': 'ଆ', 'इ': 'ଇ', 'ई': 'ଈ', 'उ': 'ଉ', 'ऊ': 'ଊ',
+                'ऋ': 'ଋ', 'ए': 'ଏ', 'ऐ': 'ଐ', 'ओ': 'ଓ', 'औ': 'ଔ',
+                'क': 'କ', 'ख': 'ଖ', 'ग': 'ଗ', 'घ': 'ଘ', 'ङ': 'ଙ',
+                'च': 'ଚ', 'छ': 'ଛ', 'ज': 'ଜ', 'झ': 'ଝ', 'ञ': 'ଞ',
+                'ट': 'ଟ', 'ठ': 'ଠ', 'ड': 'ଡ', 'ढ': 'ଢ', 'ण': 'ଣ',
+                'त': 'ତ', 'थ': 'ଥ', 'द': 'ଦ', 'ध': 'ଧ', 'न': 'ନ',
+                'प': 'ପ', 'फ': 'ଫ', 'ब': 'ବ', 'भ': 'ଭ', 'म': 'ମ',
+                'य': 'ୟ', 'र': 'ର', 'ल': 'ଲ', 'व': 'ଵ', 'श': 'ଶ',
+                'ष': 'ଷ', 'स': 'ସ', 'ह': 'ହ',
+                'ा': 'ା', 'ि': 'ି', 'ी': 'ୀ', 'ु': 'ୁ', 'ू': 'ୂ',
+                'ृ': 'ୃ', 'े': 'େ', 'ै': 'ୈ', 'ो': 'ୋ', 'ौ': 'ୌ',
+                'ं': 'ଂ', 'ँ': 'ଁ', 'ः': 'ଃ', '्': '୍',
+                'क्ष': 'କ୍ଷ', 'त्र': 'ତ୍ର', 'ज्ञ': 'ଜ୍ଞ', 'श्र': 'ଶ୍ର',
+                'त्त': 'ତ୍ତ', 'द्ध': 'ଦ୍ଧ', 'न्न': 'ନ୍ନ', 'ल्ल': 'ଲ୍ଲ',
+                'क्क': 'କ୍କ', 'ग्ग': 'ଗ୍ଗ', 'ज्ज': 'ଜ୍ଜ', 'च्छ': 'ଛ୍ଛ',
+                'ड्ड': 'ଡ୍ଡ', 'ट्ट': 'ଟ୍ଟ', 'ठ्ठ': 'ଠ୍ଠ',
+                // अन्य संयुक्त अक्षरों के लिए भी इसी प्रकार से मैपिंग जोड़ें
+            };
+
+            // संयुक्त अक्षरों की मैपिंग पहले लागू करें
+            Object.keys(mapping).sort((a, b) => b.length - a.length).forEach(hindiChar => {
+                const odiaChar = mapping[hindiChar];
+                const regex = new RegExp(hindiChar, 'g');
+                text = text.replace(regex, odiaChar);
+            });
+
+            return text;
+        }
+    </script>
+</body>
+</html>
